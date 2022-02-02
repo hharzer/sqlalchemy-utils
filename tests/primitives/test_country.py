@@ -56,7 +56,7 @@ class TestCountry(object):
 
     def test_non_equality_operator(self):
         assert Country(u'FI') != u'sv'
-        assert not (Country(u'FI') != u'FI')
+        assert Country(u'FI') == u'FI'
 
     @pytest.mark.parametrize(
         'op, code_left, code_right, is_',

@@ -155,11 +155,8 @@ def user_datetime():
 
 @pytest.fixture
 def test_token():
-    token = ''
     characters = string.ascii_letters + string.digits
-    for _ in range(60):
-        token += ''.join(random.choice(characters))
-    return token
+    return ''.join(''.join(random.choice(characters)) for _ in range(60))
 
 
 @pytest.fixture
@@ -467,7 +464,7 @@ class TestAesGcmEngine(object):
         self.engine._initialize_engine(TestAesGcmEngine.KEY)
 
     def test_roundtrip(self):
-        for number in range(0, 36):
+        for number in range(36):
             plaintext = '0123456789abcdefghijklmnopqrstuvwxyz'[:number]
             encrypted = self.engine.encrypt(plaintext)
             decrypted = self.engine.decrypt(encrypted)

@@ -77,7 +77,7 @@ class TestQueryChain(object):
         c = chain.limit(4)
         objects = list(c)
         assert users == objects[0:2]
-        assert articles[0:2] == objects[2:]
+        assert articles[:2] == objects[2:]
 
     def test_iter_with_offset(self, chain, articles, posts):
         c = chain.offset(3)
@@ -87,7 +87,7 @@ class TestQueryChain(object):
     def test_iter_with_limit_and_offset(self, chain, articles, posts):
         c = chain.offset(3).limit(4)
         objects = list(c)
-        assert articles[1:] + posts[0:1] == objects
+        assert articles[1:] + posts[:1] == objects
 
     def test_iter_with_offset_spanning_multiple_queries(self, chain, posts):
         c = chain.offset(7)

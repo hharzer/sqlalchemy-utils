@@ -12,7 +12,7 @@ class TestPkcs5Padding(object):
         self.padder = PKCS5Padding(self.BLOCK_SIZE)
 
     def test_various_lengths_roundtrip(self):
-        for number in range(0, 3 * self.BLOCK_SIZE):
+        for number in range(3 * self.BLOCK_SIZE):
             val = b'*' * number
             padded = self.padder.pad(val)
             unpadded = self.padder.unpad(padded)

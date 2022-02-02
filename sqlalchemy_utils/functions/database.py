@@ -406,18 +406,12 @@ def is_auto_assigned_date_column(column):
 
     :param column: SQLAlchemy Column object
     """
-    return (
-        (
-            isinstance(column.type, sa.DateTime) or
-            isinstance(column.type, sa.Date)
-        ) and
-        (
+    return isinstance(column.type, (sa.DateTime, sa.Date)) and ((
             column.default or
             column.server_default or
             column.onupdate or
             column.server_onupdate
-        )
-    )
+        ))
 
 
 def _set_url_database(url: sa.engine.url.URL, database):
@@ -555,7 +549,7 @@ def create_database(url, encoding='utf8', template=None):
         url = _set_url_database(url, database="postgres")
     elif dialect_name == 'mssql':
         url = _set_url_database(url, database="master")
-    elif not dialect_name == 'sqlite':
+    elif dialect_name != 'sqlite':
         url = _set_url_database(url, database=None)
 
     if (dialect_name == 'mssql' and dialect_driver in {'pymssql', 'pyodbc'}) \
@@ -622,7 +616,7 @@ def drop_database(url):
         url = _set_url_database(url, database="postgres")
     elif dialect_name == 'mssql':
         url = _set_url_database(url, database="master")
-    elif not dialect_name == 'sqlite':
+    elif dialect_name != 'sqlite':
         url = _set_url_database(url, database=None)
 
     if dialect_name == 'mssql' and dialect_driver in {'pymssql', 'pyodbc'}:

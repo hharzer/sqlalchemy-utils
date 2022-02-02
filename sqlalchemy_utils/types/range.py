@@ -282,9 +282,7 @@ class RangeType(ScalarCoercible, types.TypeDecorator):
             return dialect.type_descriptor(sa.String(255))
 
     def process_bind_param(self, value, dialect):
-        if value is not None:
-            return str(value)
-        return value
+        return str(value) if value is not None else value
 
     def process_result_value(self, value, dialect):
         if isinstance(value, six.string_types):
@@ -304,9 +302,7 @@ class RangeType(ScalarCoercible, types.TypeDecorator):
         return intervals.canonicalize(value, True, True)
 
     def _coerce(self, value):
-        if value is None:
-            return None
-        return self.interval_class(value, step=self.step)
+        return None if value is None else self.interval_class(value, step=self.step)
 
 
 class IntRangeType(RangeType):

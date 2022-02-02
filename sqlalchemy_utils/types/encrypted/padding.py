@@ -26,9 +26,7 @@ class PKCS5Padding(Padding):
             value = value.encode()
         padding_length = (self.block_size - len(value) % self.block_size)
         padding_sequence = padding_length * six.b(chr(padding_length))
-        value_with_padding = value + padding_sequence
-
-        return value_with_padding
+        return value + padding_sequence
 
     def unpad(self, value):
         # Perform some input validations.
@@ -74,9 +72,7 @@ class OneAndZeroesPadding(Padding):
         one_part_bytes = six.b(chr(self.BYTE_80))
         zeroes_part_bytes = (padding_length - 1) * six.b(chr(self.BYTE_00))
         padding_sequence = one_part_bytes + zeroes_part_bytes
-        value_with_padding = value + padding_sequence
-
-        return value_with_padding
+        return value + padding_sequence
 
     def unpad(self, value):
         value_without_padding = value.rstrip(six.b(chr(self.BYTE_00)))
@@ -103,18 +99,14 @@ class ZeroesPadding(Padding):
         zeroes_part_bytes = (padding_length - 1) * six.b(chr(self.BYTE_00))
         last_part_bytes = six.b(chr(padding_length))
         padding_sequence = zeroes_part_bytes + last_part_bytes
-        value_with_padding = value + padding_sequence
-
-        return value_with_padding
+        return value + padding_sequence
 
     def unpad(self, value):
         if isinstance(value, six.binary_type):
             padding_length = value[-1]
         if isinstance(value, six.string_types):
             padding_length = ord(value[-1])
-        value_without_padding = value[0:-padding_length]
-
-        return value_without_padding
+        return value[:-padding_length]
 
 
 class NaivePadding(Padding):
@@ -127,14 +119,10 @@ class NaivePadding(Padding):
 
     def pad(self, value):
         num_of_bytes = (self.block_size - len(value) % self.block_size)
-        value_with_padding = value + num_of_bytes * self.CHARACTER
-
-        return value_with_padding
+        return value + num_of_bytes * self.CHARACTER
 
     def unpad(self, value):
-        value_without_padding = value.rstrip(self.CHARACTER)
-
-        return value_without_padding
+        return value.rstrip(self.CHARACTER)
 
 
 PADDING_MECHANISM = {

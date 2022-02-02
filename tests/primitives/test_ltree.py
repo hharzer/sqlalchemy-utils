@@ -188,7 +188,7 @@ class TestLtree(object):
 
     def test_non_equality_operator(self):
         assert Ltree('path.path') != u'path.'
-        assert not (Ltree('path.path') != 'path.path')
+        assert Ltree('path.path') == 'path.path'
 
     def test_hash(self):
         return hash(Ltree('path')) == hash('path')

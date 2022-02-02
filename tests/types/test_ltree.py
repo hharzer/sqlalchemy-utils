@@ -17,7 +17,6 @@ def Section(Base):
 @pytest.fixture
 def init_models(Section, connection):
     connection.execute('CREATE EXTENSION IF NOT EXISTS ltree')
-    pass
 
 
 @pytest.mark.usefixtures('postgresql_dsn')

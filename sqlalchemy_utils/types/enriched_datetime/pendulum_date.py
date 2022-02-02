@@ -16,17 +16,12 @@ class PendulumDate(PendulumDateTime):
             )
 
     def _coerce(self, impl, value):
-        if value:
-            if not isinstance(value, pendulum.Date):
-                value = super(PendulumDate, self)._coerce(impl, value).date()
+        if value and not isinstance(value, pendulum.Date):
+            value = super(PendulumDate, self)._coerce(impl, value).date()
         return value
 
     def process_result_value(self, impl, value, dialect):
-        if value:
-            return pendulum.parse(value.isoformat()).date()
-        return value
+        return pendulum.parse(value.isoformat()).date() if value else value
 
     def process_bind_param(self, impl, value, dialect):
-        if value:
-            return self._coerce(impl, value)
-        return value
+        return self._coerce(impl, value) if value else value

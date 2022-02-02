@@ -251,21 +251,14 @@ def auto_delete_orphans(attr):
 
     @sa.event.listens_for(sa.orm.Session, 'after_flush')
     def delete_orphan_listener(session, ctx):
-        # Look through Session state to see if we want to emit a DELETE for
-        # orphans
-        orphans_found = (
-            any(
-                isinstance(obj, parent_class) and
-                sa.orm.attributes.get_history(obj, attr.key).deleted
-                for obj in session.dirty
-            ) or
+        if orphans_found := (
             any(
                 isinstance(obj, parent_class)
-                for obj in session.deleted
+                and sa.orm.attributes.get_history(obj, attr.key).deleted
+                for obj in session.dirty
             )
-        )
-
-        if orphans_found:
+            or any(isinstance(obj, parent_class) for obj in session.deleted)
+        ):
             # Emit a DELETE for all orphans
             (
                 session.query(target_class)

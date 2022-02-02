@@ -53,10 +53,9 @@ class UUIDType(ScalarCoercible, types.TypeDecorator):
             # Use the native UNIQUEIDENTIFIER type.
             return dialect.type_descriptor(mssql.UNIQUEIDENTIFIER())
 
-        else:
-            # Fallback to either a BINARY or a CHAR.
-            kind = self.impl if self.binary else types.CHAR(32)
-            return dialect.type_descriptor(kind)
+        # Fallback to either a BINARY or a CHAR.
+        kind = self.impl if self.binary else types.CHAR(32)
+        return dialect.type_descriptor(kind)
 
     @staticmethod
     def _coerce(value):
@@ -97,10 +96,5 @@ class UUIDType(ScalarCoercible, types.TypeDecorator):
             'mssql',
             'cockroachdb'
         ):
-            if isinstance(value, uuid.UUID):
-                # Some drivers convert PostgreSQL's uuid values to
-                # Python's uuid.UUID objects by themselves
-                return value
-            return uuid.UUID(value)
-
+            return value if isinstance(value, uuid.UUID) else uuid.UUID(value)
         return uuid.UUID(bytes=value) if self.binary else uuid.UUID(value)

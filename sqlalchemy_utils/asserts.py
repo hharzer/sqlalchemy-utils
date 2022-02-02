@@ -69,24 +69,20 @@ def _expect_failing_update(obj, field, value, expected_exc):
 
 
 def _repeated_value(type_):
-    if isinstance(type_, ARRAY):
-        if isinstance(type_.item_type, sa.Integer):
-            return [0]
-        elif isinstance(type_.item_type, sa.String):
-            return [u'a']
-        elif isinstance(type_.item_type, sa.Numeric):
-            return [Decimal('0')]
-        else:
-            raise TypeError('Unknown array item type')
-    else:
+    if not isinstance(type_, ARRAY):
         return u'a'
+    if isinstance(type_.item_type, sa.Integer):
+        return [0]
+    elif isinstance(type_.item_type, sa.String):
+        return [u'a']
+    elif isinstance(type_.item_type, sa.Numeric):
+        return [Decimal('0')]
+    else:
+        raise TypeError('Unknown array item type')
 
 
 def _expected_exception(type_):
-    if isinstance(type_, ARRAY):
-        return IntegrityError
-    else:
-        return DataError
+    return IntegrityError if isinstance(type_, ARRAY) else DataError
 
 
 def assert_nullable(obj, column):

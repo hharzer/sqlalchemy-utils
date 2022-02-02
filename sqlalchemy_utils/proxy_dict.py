@@ -42,10 +42,8 @@ class ProxyDict(object):
         if key in self.cache:
             if self.cache[key] is not None:
                 return self.cache[key]
-        else:
-            value = self.fetch(key)
-            if value:
-                return value
+        elif value := self.fetch(key):
+            return value
 
         return self.create_new_instance(key)
 

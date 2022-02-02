@@ -90,13 +90,15 @@ class AesEngine(EncryptionDecryptionBaseEngine):
 
     def _set_padding_mechanism(self, padding_mechanism=None):
         """Set the padding mechanism."""
-        if isinstance(padding_mechanism, six.string_types):
-            if padding_mechanism not in PADDING_MECHANISM.keys():
-                raise ImproperlyConfigured(
-                    "There is not padding mechanism with name {}".format(
-                        padding_mechanism
-                    )
+        if (
+            isinstance(padding_mechanism, six.string_types)
+            and padding_mechanism not in PADDING_MECHANISM.keys()
+        ):
+            raise ImproperlyConfigured(
+                "There is not padding mechanism with name {}".format(
+                    padding_mechanism
                 )
+            )
 
         if padding_mechanism is None:
             padding_mechanism = 'naive'

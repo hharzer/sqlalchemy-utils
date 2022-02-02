@@ -12,16 +12,12 @@ from .orm import _get_class_registry, get_column_key, get_mapper, get_tables
 
 
 def get_foreign_key_values(fk, obj):
-    return dict(
-        (
-            fk.constraint.columns.values()[index].key,
-            getattr(obj, element.column.key)
+    return {
+        fk.constraint.columns.values()[index].key: getattr(
+            obj, element.column.key
         )
-        for
-        index, element
-        in
-        enumerate(fk.constraint.elements)
-    )
+        for index, element in enumerate(fk.constraint.elements)
+    }
 
 
 def group_foreign_keys(foreign_keys):
@@ -80,11 +76,7 @@ def get_referencing_foreign_keys(mixed):
 
     .. seealso:: :func:`get_tables`
     """
-    if isinstance(mixed, sa.Table):
-        tables = [mixed]
-    else:
-        tables = get_tables(mixed)
-
+    tables = [mixed] if isinstance(mixed, sa.Table) else get_tables(mixed)
     referencing_foreign_keys = set()
 
     for table in mixed.metadata.tables.values():
