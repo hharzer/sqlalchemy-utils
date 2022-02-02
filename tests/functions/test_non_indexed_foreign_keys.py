@@ -54,13 +54,9 @@ class TestFindNonIndexedForeignKeys(object):
             'article' in
             fks
         )
-        column_names = list(chain(
-            *(
-                names for names in (
+        column_names = list(chain(*iter((
                     fk.columns.keys()
                     for fk in fks['article']
-                )
-            )
-        ))
+                ))))
         assert 'category_id' in column_names
         assert 'author_id' not in column_names

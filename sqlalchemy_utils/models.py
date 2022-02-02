@@ -45,10 +45,7 @@ def _generic_repr_method(self, fields):
         fields = state.mapper.columns.keys()
     for key in fields:
         value = state.attrs[key].loaded_value
-        if value == NO_VALUE:
-            value = NOT_LOADED_REPR
-        else:
-            value = repr(value)
+        value = NOT_LOADED_REPR if value == NO_VALUE else repr(value)
         field_reprs.append('='.join((key, value)))
 
     return '%s(%s)' % (self.__class__.__name__, ', '.join(field_reprs))

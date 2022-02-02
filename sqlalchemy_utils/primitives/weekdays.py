@@ -38,8 +38,7 @@ class WeekDays(object):
             return NotImplemented
 
     def __iter__(self):
-        for day in sorted(self._days):
-            yield day
+        yield from sorted(self._days)
 
     def __contains__(self, value):
         return value in self._days

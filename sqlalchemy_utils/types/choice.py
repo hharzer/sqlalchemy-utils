@@ -193,9 +193,7 @@ class ChoiceTypeImpl(object):
         return value
 
     def process_result_value(self, value, dialect):
-        if value:
-            return Choice(value, self.choices_dict[value])
-        return value
+        return Choice(value, self.choices_dict[value]) if value else value
 
 
 class EnumTypeImpl(object):
@@ -215,14 +213,10 @@ class EnumTypeImpl(object):
         self.enum_class = enum_class
 
     def _coerce(self, value):
-        if value is None:
-            return None
-        return self.enum_class(value)
+        return None if value is None else self.enum_class(value)
 
     def process_bind_param(self, value, dialect):
-        if value is None:
-            return None
-        return self.enum_class(value).value
+        return None if value is None else self.enum_class(value).value
 
     def process_result_value(self, value, dialect):
         return self._coerce(value)

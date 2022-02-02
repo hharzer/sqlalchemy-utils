@@ -155,7 +155,7 @@ class TestWeekDays(object):
     def test_iterator_starts_from_locales_first_week_day(self):
         i18n.get_locale = lambda: flexmock(first_week_day=1)
         days = WeekDays('1111111')
-        indices = list(day.index for day in days)
+        indices = [day.index for day in days]
         assert indices == [1, 2, 3, 4, 5, 6, 0]
 
     def test_unicode(self):

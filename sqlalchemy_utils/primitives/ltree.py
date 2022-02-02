@@ -178,9 +178,7 @@ class Ltree(object):
                 len(parts) == index + 1
                 for other in other_parts
             )):
-                if index == 0:
-                    return None
-                return Ltree('.'.join(parts[0:index]))
+                return None if index == 0 else Ltree('.'.join(parts[:index]))
 
     def __add__(self, other):
         return Ltree(self.path + '.' + Ltree(other).path)

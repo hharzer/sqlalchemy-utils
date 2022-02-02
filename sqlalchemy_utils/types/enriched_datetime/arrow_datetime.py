@@ -20,12 +20,14 @@ class ArrowDateTime(object):
             )
 
     def _coerce(self, impl, value):
-        if isinstance(value, six.string_types):
+        if (
+            isinstance(value, six.string_types)
+            or not isinstance(value, Iterable)
+            and isinstance(value, datetime)
+        ):
             value = arrow.get(value)
         elif isinstance(value, Iterable):
             value = arrow.get(*value)
-        elif isinstance(value, datetime):
-            value = arrow.get(value)
         return value
 
     def process_bind_param(self, impl, value, dialect):
@@ -36,6 +38,4 @@ class ArrowDateTime(object):
         return value
 
     def process_result_value(self, impl, value, dialect):
-        if value:
-            return arrow.get(value)
-        return value
+        return arrow.get(value) if value else value

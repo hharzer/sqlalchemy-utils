@@ -141,10 +141,7 @@ class QueryChain(object):
                 obj_count += 1
                 yield obj
 
-            if not obj_count:
-                skipped += query_copy.count()
-            else:
-                skipped += obj_count
+            skipped += query_copy.count() if not obj_count else obj_count
 
     def limit(self, value):
         return self[:value]
@@ -165,9 +162,8 @@ class QueryChain(object):
                 limit=key.stop if key.stop is not None else self._limit,
                 offset=key.start if key.start is not None else self._offset
             )
-        else:
-            for obj in self[key:1]:
-                return obj
+        for obj in self[key:1]:
+            return obj
 
     def __repr__(self):
         return '<QueryChain at 0x%x>' % id(self)

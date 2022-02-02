@@ -14,7 +14,7 @@ class TestChoice(object):
 
     def test_non_equality_operator(self):
         assert Choice(1, 1) != 2
-        assert not (Choice(1, 1) != 1)
+        assert Choice(1, 1) == 1
 
     def test_hash(self):
         assert hash(Choice(1, 1)) == hash(1)

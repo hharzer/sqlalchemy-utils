@@ -36,10 +36,8 @@ class GenericAttributeImpl(attributes.ScalarAttributeImpl):
 
         id = self.get_state_id(state)
 
-        target = session.query(target_class).get(id)
-
         # Return found (or not found) target.
-        return target
+        return session.query(target_class).get(id)
 
     def get_state_discriminator(self, state):
         discriminator = self.parent_token.discriminator
@@ -111,9 +109,11 @@ class GenericRelationshipProperty(MapperProperty):
                     return attr
         else:
             for attr in self.parent.attrs.values():
-                if isinstance(attr, ColumnProperty):
-                    if attr.columns[0].name == column.name:
-                        return attr
+                if (
+                    isinstance(attr, ColumnProperty)
+                    and attr.columns[0].name == column.name
+                ):
+                    return attr
 
     def init(self):
         def convert_strings(column):

@@ -55,7 +55,7 @@ class TestCurrency(object):
 
     def test_non_equality_operator(self):
         assert Currency('USD') != 'EUR'
-        assert not (Currency('USD') != 'USD')
+        assert Currency('USD') == 'USD'
 
     def test_unicode(self):
         currency = Currency('USD')

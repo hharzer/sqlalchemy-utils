@@ -59,5 +59,5 @@ class InstrumentedList(_InstrumentedList):
 def instrumented_list(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
-        return InstrumentedList([item for item in f(*args, **kwargs)])
+        return InstrumentedList(list(f(*args, **kwargs)))
     return wrapper

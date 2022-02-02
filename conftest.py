@@ -122,16 +122,13 @@ def dsn(request):
         return request.getfixturevalue('mssql_dsn')
     elif 'sqlite_file_dsn' in request.fixturenames:
         return request.getfixturevalue('sqlite_file_dsn')
-    elif 'sqlite_memory_dsn' in request.fixturenames:
-        pass  # Return default
     return request.getfixturevalue('sqlite_memory_dsn')
 
 
 @pytest.fixture
 def engine(dsn):
-    engine = create_engine(dsn)
     # engine.echo = True
-    return engine
+    return create_engine(dsn)
 
 
 @pytest.fixture

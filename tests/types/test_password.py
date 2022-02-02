@@ -122,9 +122,7 @@ class TestPasswordType(object):
 
         kind = inspect(User).c.password.type
 
-        # name + rounds + salt + hash + ($ * 4) of largest hash
-        expected_length = len(pbkdf2_sha512.name)
-        expected_length += len(str(pbkdf2_sha512.max_rounds))
+        expected_length = len(pbkdf2_sha512.name) + len(str(pbkdf2_sha512.max_rounds))
         expected_length += pbkdf2_sha512.max_salt_size
         expected_length += pbkdf2_sha512.encoded_checksum_size
         expected_length += 4

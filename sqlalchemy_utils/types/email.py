@@ -39,9 +39,7 @@ class EmailType(sa.types.TypeDecorator):
         super(EmailType, self).__init__(length=length, *args, **kwargs)
 
     def process_bind_param(self, value, dialect):
-        if value is not None:
-            return value.lower()
-        return value
+        return value.lower() if value is not None else value
 
     @property
     def python_type(self):

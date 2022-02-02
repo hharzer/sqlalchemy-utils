@@ -191,9 +191,7 @@ class PhoneNumberType(ScalarCoercible, types.TypeDecorator):
         return value
 
     def process_result_value(self, value, dialect):
-        if value:
-            return PhoneNumber(value, self.region)
-        return value
+        return PhoneNumber(value, self.region) if value else value
 
     def _coerce(self, value):
         if value and not isinstance(value, PhoneNumber):

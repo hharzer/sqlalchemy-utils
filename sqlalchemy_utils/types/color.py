@@ -70,9 +70,7 @@ class ColorType(ScalarCoercible, types.TypeDecorator):
         return value
 
     def process_result_value(self, value, dialect):
-        if value:
-            return colour.Color(value)
-        return value
+        return colour.Color(value) if value else value
 
     def _coerce(self, value):
         if value is not None and not isinstance(value, colour.Color):

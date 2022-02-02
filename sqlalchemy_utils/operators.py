@@ -39,12 +39,12 @@ class CaseInsensitiveComparator(sa.Unicode.Comparator):
         return operation
 
     def in_(self, other):
-        if isinstance(other, list) or isinstance(other, tuple):
+        if isinstance(other, (list, tuple)):
             other = map(sa.func.lower, other)
         return sa.Unicode.Comparator.in_(self, other)
 
     def notin_(self, other):
-        if isinstance(other, list) or isinstance(other, tuple):
+        if isinstance(other, (list, tuple)):
             other = map(sa.func.lower, other)
         return sa.Unicode.Comparator.notin_(self, other)
 
